@@ -1,5 +1,6 @@
 package org.mmy.springboot;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 @RestController
 public class EmployeeController {
-    @RequestMapping("/employee")
+    @GetMapping("/employee")
     public List<Employee> getEmployees() {
         return List.of(
                 new Employee(1, "lokesh", "gupta", "lokesh@c.cc"),
