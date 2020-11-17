@@ -1,7 +1,7 @@
 import com.google.gson.Gson;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.mmy.springboot.Application;
-import org.mmy.springboot.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,8 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
+import static org.mmy.springboot.EmployeeController.EMPLOYEES;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,11 +20,42 @@ public class EmployeeControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getEmployee() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/employee").accept(MediaType.APPLICATION_JSON))
+    public void getEmployees() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/employees").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(new Gson().toJson(List.of(
-                        new Employee(1, "lokesh", "gupta", "lokesh@c.cc"),
-                        new Employee(2, "ram", "gupta", "ram@c.cc")))));
+                .andExpect(content().json(new Gson().toJson(EMPLOYEES)));
+    }
+
+    @Test
+    public void getEmployee() throws Exception {
+        val id = 1;
+        mvc.perform(MockMvcRequestBuilders.get("/employee/" + id).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new Gson().toJson(EMPLOYEES.stream()
+                        .filter(employee -> employee.getId() == id)
+                        .findFirst()
+                        .orElse(null))));
+    }
+
+    @Test
+    public void getEmployeeById() throws Exception {
+        val id = 2;
+        mvc.perform(MockMvcRequestBuilders.get("/employee?id=" + id).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new Gson().toJson(EMPLOYEES.stream()
+                        .filter(employee -> employee.getId() == id)
+                        .findFirst()
+                        .orElse(null))));
+    }
+
+    @Test
+    public void getEmployeeByName() throws Exception {
+        val id = 2;
+        mvc.perform(MockMvcRequestBuilders.get("/employee?id=" + id).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new Gson().toJson(EMPLOYEES.stream()
+                        .filter(employee -> employee.getId() == id)
+                        .findFirst()
+                        .orElse(null))));
     }
 }
