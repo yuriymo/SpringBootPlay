@@ -27,6 +27,5 @@ public class EmployeeControllerTest {
                 .andExpect(content().json(new Gson().toJson(List.of(
                         new Employee(1, "lokesh", "gupta", "lokesh@c.cc"),
                         new Employee(2, "ram", "gupta", "ram@c.cc")))));
-        ;
     }
 }
