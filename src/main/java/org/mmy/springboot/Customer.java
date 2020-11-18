@@ -4,14 +4,16 @@ import lombok.*;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "CUSTOMER")
+@Table(name = "Customer")
 @NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @ToString(includeFieldNames = false)
+@EqualsAndHashCode
 public class Customer {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
