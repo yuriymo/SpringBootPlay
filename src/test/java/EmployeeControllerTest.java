@@ -21,7 +21,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void getEmployees() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/employees").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/employees?name=&distance=" + Integer.MAX_VALUE).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(new Gson().toJson(EMPLOYEES)));
     }
