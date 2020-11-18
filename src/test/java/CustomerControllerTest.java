@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class CustomerControllerTest {
 
-    public static final long ID = 1;
+    public static final long ID = 8;
 
     @Autowired
     private MockMvc mvc;
@@ -40,10 +40,10 @@ public class CustomerControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/customer/" + ID)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(r -> {
-                    Customer responseCustomer = new Gson().fromJson(r.getResponse().getContentAsString(), Customer.class);
-                    Customer customer = new Customer(ID, responseCustomer.getFirstName(), responseCustomer.getLastName());
-                    Customer dbCustomer = customerRepository.findById(ID).orElse(null);
+                .andExpect(result -> {
+                    val responseCustomer = new Gson().fromJson(result.getResponse().getContentAsString(), Customer.class);
+                    val customer = new Customer(ID, responseCustomer.getFirstName(), responseCustomer.getLastName());
+                    val dbCustomer = customerRepository.findById(ID).orElse(null);
                     if (!customer.equals(dbCustomer)) {
                         fail("getCustomer - fail");
                     }
@@ -52,17 +52,17 @@ public class CustomerControllerTest {
 
     @Test
     void getCustomersByName() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/customers-by?name=p")
+        val sortParam = "lastName";
+        mvc.perform(MockMvcRequestBuilders.get("/customers-by?name=p&sort=" + sortParam)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(r -> {
-                    val responseCustomers = Lists.newArrayList(new Gson().fromJson(r.getResponse().getContentAsString(), Customer[].class));
-                    val dbCustomers = customerRepository.findCustomersBy("p", Sort.by("lastName"));
+                .andExpect(result -> {
+                    val responseCustomers = Lists.newArrayList(new Gson().fromJson(result.getResponse().getContentAsString(), Customer[].class));
+                    val dbCustomers = customerRepository.findCustomersBy("p", Sort.by(sortParam));
                     if (!dbCustomers.equals(responseCustomers)) {
                         fail("getCustomersByName - fail");
                     }
                 });
-
     }
 
     @Test
@@ -70,8 +70,8 @@ public class CustomerControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/customer/search/findCustomersBy?name=p")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(r -> {
-                    val responseCustomers = new Gson().fromJson(r.getResponse().getContentAsString(), CustomerResponse.class).get_embedded().getCustomer();
+                .andExpect(result -> {
+                    val responseCustomers = new Gson().fromJson(result.getResponse().getContentAsString(), CustomerResponse.class).get_embedded().getCustomer();
                     val dbCustomers = customerRepository.findCustomersBy("P", Sort.by("lastName")).stream()
                             .map(customer -> new Customer(customer.getFirstName(), customer.getLastName()))
                             .collect(toList());

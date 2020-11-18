@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers-by")
-    public List<Customer> getCustomersByName(@Param("name") String name) {
-        return Lists.newArrayList(customerRepository.findCustomersBy(name, Sort.by("lastName")));
+    public List<Customer> getCustomersByName(@Param("name") String name, @RequestParam(defaultValue = "lastName") String sort) {
+        return Lists.newArrayList(customerRepository.findCustomersBy(name, Sort.by(sort)));
     }
 }
