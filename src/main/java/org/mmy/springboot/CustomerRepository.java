@@ -13,12 +13,18 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 
     List<Customer> findByLastName(@Param("name") String name);
 
-//    @Query("select c, p from Customer c left join Phone p on c.id = p.customer.id where lower(c.lastName) like lower(concat(:name, '%')) or lower(c.firstName) like lower(concat(:name, '%'))")
+//    @Query("""
+//            select c, p 
+//            from Customer c 
+//            left join Phone p on c.id = p.customer.id 
+//            where lower(c.lastName) like lower(concat(:name, '%')) 
+//            or lower(c.firstName) like lower(concat(:name, '%'))
+//            """)
     @Query("""
-        select c 
-        from Customer c 
-        where lower(c.lastName) like lower(concat(:name, '%')) 
-        or lower(c.firstName) like lower(concat(:name, '%'))
-        """)
+            select c 
+            from Customer c 
+            where lower(c.lastName) like lower(concat(:name, '%')) 
+            or lower(c.firstName) like lower(concat(:name, '%'))
+            """)
     List<Customer> findCustomersBy(@Param("name") String name, Sort sort);
 }
