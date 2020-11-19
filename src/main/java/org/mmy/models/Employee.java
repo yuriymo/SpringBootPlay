@@ -1,4 +1,4 @@
-package org.mmy.springboot;
+package org.mmy.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

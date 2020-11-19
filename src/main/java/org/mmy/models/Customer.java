@@ -1,4 +1,4 @@
-package org.mmy.springboot;
+package org.mmy.models;
 
 import lombok.*;
 
@@ -11,7 +11,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Getter
 @ToString(includeFieldNames = false)
-@EqualsAndHashCode
 public class Customer {
 
     @Id
@@ -21,7 +20,7 @@ public class Customer {
     @NonNull
     @Column(name = "first_name")
     private String firstName;
-
+    
     @NonNull
     @Column(name = "last_name")
     private String lastName;

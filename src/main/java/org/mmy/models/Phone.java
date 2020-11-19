@@ -1,6 +1,7 @@
-package org.mmy.springboot;
+package org.mmy.models;
 
 import lombok.*;
+import org.mmy.models.Customer;
 
 import javax.persistence.*;
 
