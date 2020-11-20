@@ -28,8 +28,8 @@ public class CustomerService {
                 .collect(toList());
     }
 
-    public List<CustomerDto> getCustomersBy(String name, Sort sort) {
-        return customerRepository.findCustomersBy(name, sort).stream()
+    public List<CustomerDto> getCustomersBy(String name, String sortBy) {
+        return customerRepository.findCustomersBy(name, Sort.by(sortBy)).stream()
                 .map(customerMapper::toDto)
                 .collect(toList());
     }

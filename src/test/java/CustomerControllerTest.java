@@ -2,6 +2,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.gson.Gson;
 import lombok.val;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mmy.Application;
 import org.mmy.dto.CustomerDto;
@@ -16,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = Application.class)
@@ -45,7 +45,7 @@ public class CustomerControllerTest {
                     val customer = new Gson().fromJson(result.getResponse().getContentAsString(), CustomerDto.class);
                     val dbCustomer = customerMapper.toDto(customerRepository.findById(ID).orElse(null));
                     if (!customer.equals(dbCustomer)) {
-                        fail("getCustomer - fail");
+                        Assertions.fail("getCustomer - fail");
                     }
                 });
     }
@@ -62,7 +62,7 @@ public class CustomerControllerTest {
                             .map(customerMapper::toDto)
                             .collect(toList());
                     if (!dbCustomers.equals(responseCustomers)) {
-                        fail("getCustomersByName - fail");
+                        Assertions.fail("getCustomersByName - fail");
                     }
                 });
     }
@@ -78,7 +78,7 @@ public class CustomerControllerTest {
                             .map(customerMapper::toDto)
                             .collect(toList());
                     if (!dbCustomers.equals(responseCustomers)) {
-                        fail("getCustomersByName - fail");
+                        Assertions.fail("getCustomersByName - fail");
                     }
                 });
     }

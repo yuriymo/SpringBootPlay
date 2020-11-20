@@ -1,10 +1,8 @@
 package org.mmy.controllers;
 
-import com.google.common.collect.Lists;
 import org.mmy.dto.CustomerDto;
 import org.mmy.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +19,7 @@ public class CustomerController {
 
     @GetMapping("/customers")
     public List<CustomerDto> getCustomers() {
-        return Lists.newArrayList(customerService.getAll());
+        return customerService.getAll();
     }
 
     @GetMapping("/customer/{id}")
@@ -30,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers-by")
-    public List<CustomerDto> getCustomersByName(@Param("name") String name, @RequestParam(defaultValue = "lastName") String sort) {
-        return Lists.newArrayList(customerService.getCustomersBy(name, Sort.by(sort)));
+    public List<CustomerDto> getCustomersByName(@Param("name") String name, @RequestParam(defaultValue = "lastName") String sortBy) {
+        return customerService.getCustomersBy(name, sortBy);
     }
 }
